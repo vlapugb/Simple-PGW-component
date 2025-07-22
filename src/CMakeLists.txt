@@ -1,9 +1,10 @@
 include(FetchContent)
 
+
 FetchContent_Declare(
         boost
         GIT_REPOSITORY https://github.com/boostorg/boost.git
-        GIT_TAG boost-1.87.0
+        GIT_TAG        boost-1.87.0
 )
 set(BOOST_INCLUDE_LIBRARIES system asio date_time)
 set(BOOST_ENABLE_CMAKE ON)
@@ -29,9 +30,9 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(
         nlohmann_json
-        boost
         crow
         spdlog
+        boost
 )
 add_library(common
         Common/AbstractLogger.cpp
@@ -56,7 +57,3 @@ add_executable(server
 
 target_link_libraries(server PRIVATE nlohmann_json::nlohmann_json Crow::Crow Boost::asio Boost::system spdlog::spdlog common)
 target_link_libraries(client PRIVATE nlohmann_json::nlohmann_json Crow::Crow Boost::asio Boost::system spdlog::spdlog common)
-
-
-
-
