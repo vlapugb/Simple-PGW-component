@@ -17,23 +17,11 @@ jobs:
       - name: Set up CMake
         uses: jwlawson/actions-setup-cmake@v2
 
-      - name: Cache apt
-        uses: actions/cache@v4
-        id: apt-cache
-        with:
-          path: /var/cache/apt/archives
-          key: ${{ runner.os }}-apt-${{ hashFiles('.github/workflows/*.yml') }}
-
       - name: Install deps
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-               libboost-all-dev ninja-build ccache
-
-      - name: Restore ccache
-        uses: hendrikmuhs/ccache-action@v1.2
-        with:
-          key: ${{ runner.os }}-${{ matrix.build_type }}-${{ hashFiles('**/CMakeLists.txt') }}
+               libboost-all-dev ninja-build
 
       - name: Setup python
         uses: actions/setup-python@v5
@@ -42,14 +30,11 @@ jobs:
 
       - name: Build & test
         run: |
-          ccache -M 400M
-          ccache -s
           if [ "${{ matrix.build_type }}" = "Release" ]; then
             python3 scripts/runner.py release
           else
             python3 scripts/runner.py
           fi
-          ccache -s
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
