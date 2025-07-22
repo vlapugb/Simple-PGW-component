@@ -13,23 +13,44 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
       - name: Set up CMake
         uses: jwlawson/actions-setup-cmake@v2
-      - name: Install Boost
+
+      - name: Cache apt
+        uses: actions/cache@v4
+        id: apt-cache
+        with:
+          path: /var/cache/apt/archives
+          key: ${{ runner.os }}-apt-${{ hashFiles('.github/workflows/*.yml') }}
+
+      - name: Install deps
         run: |
           sudo apt-get update
-          sudo apt-get install -y libboost-all-dev
+          sudo apt-get install -y --no-install-recommends \
+               libboost-all-dev ninja-build ccache
+
+      - name: Restore ccache
+        uses: hendrikmuhs/ccache-action@v1.2
+        with:
+          key: ${{ runner.os }}-${{ matrix.build_type }}-${{ hashFiles('**/CMakeLists.txt') }}
+
       - name: Setup python
         uses: actions/setup-python@v5
         with:
           python-version: 3.13
-      - name: Run build script
+
+      - name: Build & test
         run: |
+          ccache -M 400M
+          ccache -s
           if [ "${{ matrix.build_type }}" = "Release" ]; then
-            python scripts/runner.py release
+            python3 scripts/runner.py release
           else
-            python scripts/runner.py
+            python3 scripts/runner.py
           fi
+          ccache -s
+
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
