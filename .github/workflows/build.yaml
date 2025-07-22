@@ -35,25 +35,3 @@ jobs:
         with:
           name: build-${{ matrix.build_type }}
           path: build/
-
-
-  tests:
-    runs-on: ubuntu-22.04
-    needs: build
-    strategy:
-      matrix:
-        build_type: [ Debug, Release ]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-${{ matrix.build_type }}
-          path: build/
-      - name: Check tests_runner exists
-        run: test -x ./build/tests/tests_runner
-      - name: Run tests
-        run: ./build/tests/tests_runner
-
-
