@@ -1,4 +1,3 @@
-
 on:
   pull_request:
   push:
@@ -7,8 +6,50 @@ on:
 
 jobs:
   build:
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        build_type: [Debug, Release]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up CMake
+        uses: jwlawson/actions-setup-cmake@v2
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.13
+      - name: Run build script
+        run: |
+          if [ "${{ matrix.build_type }}" = "release" ]; then
+            python scripts/runner.py release
+          else
+            python scripts/runner.py
+          fi
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-${{ matrix.build_type }}
+          path: build/
 
 
-
+  tests:
+    runs-on: ubuntu-22.04
+    needs: build
+    strategy:
+      matrix:
+        build_type: [ Debug, Release ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+            name: build-${{ matrix.build_type }}
+            path: build/
+      - name: Check tests_runner exists
+        run: test -x ./build/tests/tests_runner
+      - name: Run tests
+        run: ./build/tests/tests_runner
 
 
