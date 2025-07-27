@@ -8,14 +8,14 @@
 #include <unordered_set>
 #include <vector>
 
-#include "nlohmann/json.hpp"
-#include "spdlog/sinks/null_sink.h"
 #include "../src/Client/UdpClient.h"
+#include "../src/Common/ConfigLoader.h"
 #include "../src/Pgw/BlackListStorer.h"
 #include "../src/Pgw/CdrWriter.h"
 #include "../src/Pgw/SessionManager.h"
-#include "../src/Common/ConfigLoader.h"
 #include "../src/Pgw/UdpServer.h"
+#include "nlohmann/json.hpp"
+#include "spdlog/sinks/null_sink.h"
 
 
 static std::shared_ptr<spdlog::logger> make_null_logger (const std::string& name = "null") {
