@@ -16,7 +16,6 @@ AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakBeforeMultilineStrings: false
-AlwaysBreakTemplateDeclarations: BOS_None
 BinPackParameters: false
 BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Attach
