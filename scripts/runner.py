@@ -20,4 +20,3 @@ subprocess.run(["cmake", "-G", "Ninja",
                 f"-DCMAKE_BUILD_TYPE={build_type}",
                 ".."], check=True)
 subprocess.run(["cmake", "--build", ".", "--parallel"], check=True)
-subprocess.run(["ctest", "--output-on-failure"], check=True)

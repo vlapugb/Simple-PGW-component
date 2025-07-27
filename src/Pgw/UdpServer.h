@@ -64,6 +64,8 @@ class UdpServer {
         _http = std::move (http);
     }
 
+    static std::string bcd_to_imsi (const uint8_t* data, std::size_t len);
+
     private:
     void init_socket ();
 
@@ -74,8 +76,6 @@ class UdpServer {
     void send_responses ();
 
     void offload_sessions ();
-
-    static std::string bcd_to_imsi (const uint8_t* data, std::size_t len);
 
 
     const std::string _bind_ip;
