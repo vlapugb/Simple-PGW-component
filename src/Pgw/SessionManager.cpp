@@ -33,7 +33,7 @@ void SessionManager::remove_timeout () {
         std::lock_guard lock (_mutex);
         for (auto& [imsi, info] : _sessions) {
             if (const auto age = std::chrono::duration_cast<std::chrono::seconds> (now - info.start_time).count ();
-            age >= static_cast<long> (_timeout_sec))
+                age >= static_cast<long> (_timeout_sec))
                 to_remove.push_back (imsi);
         }
         for (auto& imsi : to_remove)
