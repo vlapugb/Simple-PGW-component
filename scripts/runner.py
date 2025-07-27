@@ -2,6 +2,16 @@ import subprocess
 import os
 import sys
 
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+server_settings_path = os.path.abspath(os.path.join(BASE_DIR, '../settings/server_settings.json'))
+client_settings_path = os.path.abspath(os.path.join(BASE_DIR, '../settings/client_settings.json'))
+set_env_path = os.path.abspath(os.path.join(BASE_DIR, 'set_env.sh'))
+project_dir = os.path.abspath(os.path.join(BASE_DIR, '..'))
+with open(set_env_path, 'w', encoding='utf-8') as f:
+    f.write(f'export SERVER_SETTINGS="{server_settings_path}"\n')
+    f.write(f'export CLIENT_SETTINGS="{client_settings_path}"\n')
+    f.write(f'export PROJECT_DIR="{project_dir}"\n')
 projdir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 os.makedirs(f"{projdir}/build", exist_ok=True)
 os.chdir(f"{projdir}/build")

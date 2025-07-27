@@ -1,6 +1,4 @@
 include(FetchContent)
-
-
 FetchContent_Declare(
         boost
         GIT_REPOSITORY https://github.com/boostorg/boost.git
@@ -34,16 +32,13 @@ FetchContent_MakeAvailable(
         spdlog
         boost
 )
-add_library(common
-        Common/AbstractLogger.cpp
-        Common/ClientLogger.cpp
-        Common/ServerLogger.cpp
-)
-target_include_directories(common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/Common)
+
+
 
 add_executable(client
         Client/main.cpp
         Client/UdpClient.cpp
+        Client/UdpClient.h
 )
 add_executable(server
         main.cpp
@@ -52,8 +47,13 @@ add_executable(server
         Pgw/ControlPlaneServer.cpp
         Pgw/BlackListStorer.cpp
         Pgw/CdrWriter.cpp
-        Pgw/ConfigLoader.cpp
+        Pgw/UdpServer.h
+        Pgw/SessionManager.h
+        Pgw/ControlPlaneServer.h
+        Pgw/BlackListStorer.h
+        Pgw/CdrWriter.h
+        Common/ConfigLoader.h
 )
 
-target_link_libraries(server PRIVATE nlohmann_json::nlohmann_json Crow::Crow Boost::asio Boost::system spdlog::spdlog common)
-target_link_libraries(client PRIVATE nlohmann_json::nlohmann_json Crow::Crow Boost::asio Boost::system spdlog::spdlog common)
+target_link_libraries(server PRIVATE nlohmann_json::nlohmann_json Crow::Crow Boost::asio Boost::system spdlog::spdlog)
+target_link_libraries(client PRIVATE nlohmann_json::nlohmann_json Crow::Crow Boost::asio Boost::system spdlog::spdlog)
