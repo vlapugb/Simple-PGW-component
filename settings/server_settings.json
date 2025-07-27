@@ -1,12 +1,12 @@
 {
-  "udp_ip": "192.168.1.100",
-  "udp_port": 9999,
-  "session_timeout_sec": 60,
+  "udp_ip": "0.0.0.0",
+  "udp_port": 9000,
+  "session_timeout_sec": 10,
   "cdr_file": "test_cdr.log",
   "http_port": 8081,
   "graceful_shutdown_rate": 5,
   "log_file": "test_pgw.log",
-  "log_level": "debug",
+  "log_level": "info",
   "blacklist": [
     "001010111111111",
     "001010222222222"
