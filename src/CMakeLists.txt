@@ -55,5 +55,27 @@ add_executable(server
         Common/ConfigLoader.h
 )
 
+add_library(pgw_core STATIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/Client/UdpClient.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Pgw/UdpServer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Pgw/SessionManager.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Pgw/ControlPlaneServer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Pgw/BlackListStorer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Pgw/CdrWriter.cpp
+)
+
+target_include_directories(pgw_core PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_link_libraries(pgw_core PUBLIC
+        nlohmann_json::nlohmann_json
+        Crow::Crow
+        Boost::asio
+        Boost::system
+        spdlog::spdlog
+        pthread
+)
+
 target_link_libraries(server PRIVATE nlohmann_json::nlohmann_json Crow::Crow Boost::asio Boost::system spdlog::spdlog)
 target_link_libraries(client PRIVATE nlohmann_json::nlohmann_json Crow::Crow Boost::asio Boost::system spdlog::spdlog)
