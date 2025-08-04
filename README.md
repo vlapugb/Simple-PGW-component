@@ -31,19 +31,7 @@ source configure_and_run.sh
 cd build/src
 ```
 
-### 3.2 Запуск сер
-set(RUNNABLE ${CMAKE_PROJECT_NAME})
-set(OBJ_LIB "${CMAKE_PROJECT_NAME}_lib")
-file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
-        "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/*.h"
-)
-list(REMOVE_ITEM SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/main.cpp")
-add_library(${OBJ_LIB} OBJECT ${SOURCES})
-
-target_include_directories(${OBJ_LIB} SYSTEM PUBLIC ${boost_asio_SOURCE_DIR}/include)
-target_include_directories(${OBJ_LIB} PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>")
-target_compile_options(${OBJ_LIB} PUBLIC "-Werror" "-Wall" "-Wextra" "-Wpedantic" "-Wno-error=maybe-uninitialized")вера
+### 3.2 Запуск сервера
 
 ```bash
 ./server
